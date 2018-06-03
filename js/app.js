@@ -1,7 +1,31 @@
-/*
- * Create a list that holds all of your cards
+/*******************************************************************************
+ * Set Global Values
  */
 
+/* Card Deck images for matching from Font Awesome */
+const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal', 
+                  'fort-awesome', 'fort-awesome', 'galactic-senate', 'galactic-senate', 
+                  'fulcrum', 'fulcrum', 'ethereum', 'ethereum', 
+                  'angellist', 'angellist', '500px', '500px'];
+
+/* Global Consts */
+const deck = document.querySelector('.deck');
+const restart = document.getElementsByClassName('restart');
+const progress = document.getElementsByClassName('stars');
+const moves = document.getElementsByClassName('moves');
+const card = document.getElementsByClassName('card');
+const cards = document.getElementsByClassName('...card');
+
+
+/* Create cards within .deck HTML element */
+for (let i = 0; i < cardDeck.length; i++) {
+    const cards = document.createElement('li');
+          cards.className = 'card';
+          cards.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
+
+    deck.appendChild(cards);
+}
+   
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
