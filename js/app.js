@@ -16,6 +16,11 @@ const moves = document.getElementsByClassName('moves');
 const card = document.getElementsByClassName('card');
 const cards = document.getElementsByClassName('...card');
 
+let displayCard = function() {
+    this.classList.toggle('open');
+
+}
+
 
 /* Create cards within .deck HTML element */
 function createDeck(){
@@ -24,9 +29,13 @@ for (let i = 0; i < cardDeck.length; i++) {
           cards.className = 'card';
           cards.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
 
+          cards.addEventListener('click', displayCard);
+          /*cards.addEventListener('click', cardOpen);*/
     deck.appendChild(cards);
     }
 }
+
+
 
 function startGame() {
     shuffle(cardDeck);
@@ -34,6 +43,9 @@ function startGame() {
 }
 
 window.onload = startGame();
+
+
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
