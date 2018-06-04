@@ -1,11 +1,18 @@
 /*******************************************************************************
+ * Set References
+ 
+https://scotch.io/tutorials/how-to-build-a-memory-matching-game-in-javascript
+
+  */
+
+/*******************************************************************************
  * Set Global Values
  */
 
 /* Card Deck images for matching from Font Awesome */
 const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal', 
-                  'fort-awesome', 'fort-awesome', 'galactic-senate', 'galactic-senate', 
-                  'fulcrum', 'fulcrum', 'ethereum', 'ethereum', 
+                  'fort-awesome', 'fort-awesome', 'cloudversify', 'cloudversify', 
+                  'grunt', 'grunt', 'ethereum', 'ethereum', 
                   'angellist', 'angellist', '500px', '500px'];
 
 /* Global Consts */
@@ -18,7 +25,7 @@ const cards = document.getElementsByClassName('...card');
 
 let displayCard = function() {
     this.classList.toggle('open');
-
+    this.classList.toggle('hidden');
 }
 
 
@@ -26,7 +33,7 @@ let displayCard = function() {
 function createDeck(){
 for (let i = 0; i < cardDeck.length; i++) {
     const cards = document.createElement('li');
-          cards.className = 'card';
+          cards.className = 'card hidden';
           cards.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
 
           cards.addEventListener('click', displayCard);
@@ -38,7 +45,9 @@ for (let i = 0; i < cardDeck.length; i++) {
 
 
 function startGame() {
+    // Shuffle the card deck
     shuffle(cardDeck);
+    // Create randomised deck of cards
     createDeck();
 }
 

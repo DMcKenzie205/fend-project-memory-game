@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Set References
+ 
+https://scotch.io/tutorials/how-to-build-a-memory-matching-game-in-javascript
+https://davidwalsh.name/css-flip
+
+  */
+
+
 /******************************************************************************
  *  Core style settings for index.html
  */
@@ -21,6 +30,10 @@ body {
 body {
     background: #ffffff url('../img/greyzz.png'); /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
+}
+
+.hidden i {
+  display: none;
 }
 /*
  * css for using 2X background image on larger displays 
@@ -71,21 +84,28 @@ h1 {
     height: 125px;
     width: 125px;
     background: #154360;
-    font-size: 0;
+    font-size: 3.2em;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    backface-visibility: hidden;
+    
 }
 
 .deck .card.open {
     transform: rotateY(0);
     background: #02b3e4;
     cursor: default;
+    display: flex;
+    animation: turnCard;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    animation-duration: 1.0s;
     transform: scale(1.05);
 }
 
@@ -124,4 +144,34 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+/******************************************************************************
+ * Animations
+ */
+
+/* Basis for animations by https://scotch.io/tutorials/how-to-build-a-memory-matching-game-in-javascript */
+
+
+@keyframes turnCard {
+  from {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+    animation-timing-function: ease-in;
+    opacity: 0.2;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+    opacity: 1;
+  }
+
+  to {
+    transform: perspective(400px);
+    transform: scale(1.1);
+  }
 }
