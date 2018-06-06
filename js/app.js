@@ -23,12 +23,6 @@ const moves = document.getElementsByClassName('moves');
 const card = document.getElementsByClassName('card');
 const cards = document.getElementsByClassName('...card');
 
-let displayCard = function() {
-    this.classList.toggle('open');
-    this.classList.toggle('hidden');
-}
-
-
 /* Create cards within .deck HTML element */
 function createDeck(){
 for (let i = 0; i < cardDeck.length; i++) {
@@ -37,11 +31,55 @@ for (let i = 0; i < cardDeck.length; i++) {
           cards.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
 
           cards.addEventListener('click', displayCard);
-          /*cards.addEventListener('click', cardOpen);*/
+
     deck.appendChild(cards);
     }
 }
 
+/* Create array for matching cards */
+let openCards = [];
+
+/* Toggle classes when card is turned over */
+let displayCard = function() {
+    this.classList.toggle('open');
+    this.classList.toggle('hidden');
+    // Push innerHTML to array for matchCard check
+    openCards.push(this.innerHTML);
+    matchCard();
+}
+
+function matchCard() {
+    /*let check = openCards;*/
+    
+    if (openCards.length === 2) {
+        cardMatch();
+    } else {
+        cardNoMatch();
+    }
+}
+
+function cardMatch() {
+    if (openCards[0] === openCards[1]) {
+
+    }
+}
+
+function cardNoMatch() {
+    const flipped = document.getElementsByClassName('open');
+
+    if (openCards[0] !== openCards[1]) {
+        flipped.forEach(function(reset) {
+            this.classList.toggle('open');
+            this.classList.toggle('hidden');
+            openCards = [];
+            }); 
+        } else {}
+}
+
+
+/*const cardsFlip = deck.getElementsByClassName('open');
+let cardCheck = openCards.prototype.filter.call(cardsFlip, cardNoMatch());
+*/
 
 
 function startGame() {
@@ -54,13 +92,6 @@ function startGame() {
 window.onload = startGame();
 
 
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -79,8 +110,8 @@ function shuffle(array) {
 
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
+
+
  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)

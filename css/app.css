@@ -105,7 +105,7 @@ h1 {
     animation: turnCard;
     -webkit-backface-visibility: visible !important;
     backface-visibility: visible !important;
-    animation-duration: 1.0s;
+    animation-duration: 0.75s;
     transform: scale(1.05);
 }
 
