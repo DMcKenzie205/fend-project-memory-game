@@ -19,67 +19,52 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
 const deck = document.querySelector('.deck');
 const restart = document.getElementsByClassName('restart');
 const progress = document.getElementsByClassName('stars');
-const moves = document.getElementsByClassName('moves');
-const card = document.getElementsByClassName('card');
-const cards = document.getElementsByClassName('...card');
+const moves = 0;
 
 /* Create cards within .deck HTML element */
 function createDeck(){
-for (let i = 0; i < cardDeck.length; i++) {
-    const cards = document.createElement('li');
-          cards.className = 'card hidden';
-          cards.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
+    for (let i = 0; i < cardDeck.length; i++) {
+        const card = document.createElement('li');
 
-          cards.addEventListener('click', displayCard);
+        card.className = 'card hidden';
+        card.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
+        card.setAttribute('data-icon', `${cardDeck[i]}`);
+        card.addEventListener('click', handleCardClick);
 
-    deck.appendChild(cards);
+        deck.appendChild(card);
     }
 }
 
-/* Create array for matching cards */
-let openCards = [];
+/* Handle card events for game functions */
+function handleCardClick(event) {
+    event.preventDefault();
 
-/* Toggle classes when card is turned over */
-let displayCard = function() {
-    this.classList.toggle('open');
-    this.classList.toggle('hidden');
-    // Push innerHTML to array for matchCard check
-    openCards.push(this.innerHTML);
-    matchCard();
-}
-
-function matchCard() {
-    /*let check = openCards;*/
-    
-    if (openCards.length === 2) {
-        cardMatch();
-    } else {
-        cardNoMatch();
+    //Check if card has been matched previously
+    if (this.classList.contains('.matched')) {
+        return
+    }
+    //Flip the Card
+    this.classList.replace('hidden', 'open');
+    //Record the move
+    /*movesCount();*/
+    //Collect open card elements
+    const chosen = document.querySelectorAll('.open:not(.matched)');
+    /* Check if 2 cards are flipped */
+    if (chosen.length === 2) {
+        if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
+            chosen[0].classList.add('matched');
+            chosen[1].classList.add('matched');
+        } else {
+        // return cards to normal state after a short delay
+        setTimeout(function () {
+            chosen[0].classList.replace('open', 'hidden');
+            chosen[1].classList.replace('open', 'hidden');
+            }, 1000); 
+        }
     }
 }
 
-function cardMatch() {
-    if (openCards[0] === openCards[1]) {
 
-    }
-}
-
-function cardNoMatch() {
-    const flipped = document.getElementsByClassName('open');
-
-    if (openCards[0] !== openCards[1]) {
-        flipped.forEach(function(reset) {
-            this.classList.toggle('open');
-            this.classList.toggle('hidden');
-            openCards = [];
-            }); 
-        } else {}
-}
-
-
-/*const cardsFlip = deck.getElementsByClassName('open');
-let cardCheck = openCards.prototype.filter.call(cardsFlip, cardNoMatch());
-*/
 
 
 function startGame() {
@@ -119,3 +104,7 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+
+
