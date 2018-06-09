@@ -18,8 +18,12 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
 /* Global Variables */
 const restart = document.getElementsByClassName('restart');
 const progress = document.getElementsByClassName('stars');
+
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
+
+const totalLevels = 3;
+let currentLevel = 3;
 
 /* Create cards within .deck HTML element */
 function createDeck(){
@@ -34,6 +38,26 @@ function createDeck(){
 
         deck.appendChild(card);
     }
+}
+
+function generateLevelDisplay() {
+    const levelPanel = document.querySelector('.stars');
+    console.log(levelPanel);
+    levelPanel.innerHTML = "";
+
+    for (i = 0; i < currentLevel; i++) {
+        const level = document.createElement('li');
+        level.innerHTML += '<i class="fas fa-star"></i>';
+    
+    levelPanel.appendChild(level);
+    }
+
+    for (i = 0; i < (totalLevels - currentLevel); i++) {
+        const level = document.createElement('li');
+        level.innerHTML += '<i class="far fa-star"></i>';
+    
+    levelPanel.appendChild(level);
+    }   
 }
 
 /* Handle card events for game functions */
@@ -64,6 +88,9 @@ function handleCardClick(event) {
             }, 1000); 
         }
     }
+
+    levelCounter();
+    generateLevelDisplay();
 }
 
 /* Set functions for game start on window.load or start game action */
@@ -72,12 +99,28 @@ function startGame() {
     shuffle(cardDeck);
     // Create randomised deck of cards
     createDeck();
+
+    generateLevelDisplay();
+
+    currentLevel = 3;
 }
 
 function movesCount() {
     moves++;
     moveCounter.innerHTML = moves;
     
+}
+
+function levelCounter() {
+    if (moves < 10) {
+        currentLevel = 3;
+    } else if (moves > 10 && moves < 18) {
+        currentLevel = 2;
+    } else if (moves > 18 && moves < 25) {
+        currentLevel = 1;
+    } else if (moves > 25) {
+        currentLevel = 0;
+    }
 }
 
 window.onload = startGame();
