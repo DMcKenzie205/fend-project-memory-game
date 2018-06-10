@@ -29,9 +29,13 @@ let currentLevel = 3;
 
 /* Create cards within .deck HTML element */
 function createDeck(){
+    const card = document.createElement('li');
+    const deck = document.querySelector('.deck');
+
+    card.innerHTML = "";
+
     for (let i = 0; i < cardDeck.length; i++) {
-        const card = document.createElement('li');
-        const deck = document.querySelector('.deck');
+
 
         card.className = 'card hidden';
         card.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
@@ -76,7 +80,6 @@ function handleCardClick(event) {
     this.classList.replace('hidden', 'open');
     //Collect open card elements
     const chosen = document.querySelectorAll('.open:not(.matched)');
-    console.log(chosen.length);
     if (chosen.length > 2) {
         return;
     }
@@ -114,7 +117,7 @@ function startGame() {
     createDeck();
 
     generateLevelDisplay();
-
+    console.log(restart);
     currentLevel = 3;
 }
 
@@ -171,6 +174,9 @@ function winGame() {
 
 }
 
+/* Restart Game */
+
+restart.addEventListener('click', startGame);
 /*
 
 
