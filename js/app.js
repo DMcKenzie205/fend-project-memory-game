@@ -3,7 +3,8 @@
  
 https://scotch.io/tutorials/how-to-build-a-memory-matching-game-in-javascript
 
-  */
+https://davidwalsh.name/function-debounce
+
 
 /*******************************************************************************
  * Set Global Values
@@ -18,6 +19,7 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
 /* Global Variables */
 const restart = document.getElementsByClassName('restart');
 const progress = document.getElementsByClassName('stars');
+const matched = [];
 
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
@@ -34,7 +36,7 @@ function createDeck(){
         card.className = 'card hidden';
         card.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
         card.setAttribute('data-icon', `${cardDeck[i]}`);
-        card.addEventListener('click', handleCardClick);
+        card.addEventListener('click', debounce(handleCardClick, 100));
 
         deck.appendChild(card);
     }
@@ -42,7 +44,6 @@ function createDeck(){
 
 function generateLevelDisplay() {
     const levelPanel = document.querySelector('.stars');
-    console.log(levelPanel);
     levelPanel.innerHTML = "";
 
     for (i = 0; i < currentLevel; i++) {
@@ -62,16 +63,24 @@ function generateLevelDisplay() {
 
 /* Handle card events for game functions */
 function handleCardClick(event) {
+
     event.preventDefault();
 
     //Check if card has been matched previously
     if (this.classList.contains('.matched')) {
         return
     }
+
+
     //Flip the Card
     this.classList.replace('hidden', 'open');
     //Collect open card elements
     const chosen = document.querySelectorAll('.open:not(.matched)');
+    console.log(chosen.length);
+    if (chosen.length > 2) {
+        return;
+    }
+
     /* Check if 2 cards are flipped */
     if (chosen.length === 2) {
         //Record the move
@@ -80,17 +89,21 @@ function handleCardClick(event) {
         if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
             chosen[0].classList.add('matched');
             chosen[1].classList.add('matched');
+
+            matched.push(this);
         } else {
         // return cards to normal state after a short delay
         setTimeout(function () {
             chosen[0].classList.replace('open', 'hidden');
             chosen[1].classList.replace('open', 'hidden');
-            }, 1000); 
+            }, 1000);
+
         }
     }
 
     levelCounter();
     generateLevelDisplay();
+    
 }
 
 /* Set functions for game start on window.load or start game action */
@@ -140,12 +153,29 @@ function shuffle(array) {
     return array;
 }
 
+function debounce(fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+/* insert this as a callback on HandleCardClick */
+function winGame() {
+    if (matched.length === 8) {
+        alert("Congratulations!!!");
+    }
+
+}
 
 /*
 
 
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+
+ *  + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
 
