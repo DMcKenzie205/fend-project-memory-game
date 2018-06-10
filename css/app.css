@@ -13,6 +13,7 @@ https://davidwalsh.name/css-flip
 
 html {
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 *,
@@ -58,6 +59,7 @@ body {
 h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+    font-size: 3em;
 }
 
 /******************************************************************************
@@ -77,7 +79,7 @@ h1 {
     grid-auto-flow: row;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 3em;
+    margin: 1.2em 0 1em;
 }
 
 .card {
@@ -125,7 +127,7 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
+    text-align: center;
     width: 345px;
     margin-bottom: 10px;
 }

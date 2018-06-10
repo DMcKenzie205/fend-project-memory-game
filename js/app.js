@@ -17,9 +17,11 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
                   'angellist', 'angellist', '500px', '500px'];
 
 /* Global Variables */
-const restart = document.getElementsByClassName('restart');
+const restart = document.querySelector('.restart');
 const progress = document.getElementsByClassName('stars');
 const matched = [];
+
+const deck = document.querySelector('.deck');
 
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
@@ -29,13 +31,9 @@ let currentLevel = 3;
 
 /* Create cards within .deck HTML element */
 function createDeck(){
-    const card = document.createElement('li');
-    const deck = document.querySelector('.deck');
-
-    card.innerHTML = "";
 
     for (let i = 0; i < cardDeck.length; i++) {
-
+        const card = document.createElement('li');
 
         card.className = 'card hidden';
         card.innerHTML += `<i class="fab fa-${cardDeck[i]}"></i>`;
@@ -47,21 +45,21 @@ function createDeck(){
 }
 
 function generateLevelDisplay() {
-    const levelPanel = document.querySelector('.stars');
-    levelPanel.innerHTML = "";
+    const starsPanel = document.querySelector('.stars');
+    starsPanel.innerHTML = "";
 
     for (i = 0; i < currentLevel; i++) {
         const level = document.createElement('li');
         level.innerHTML += '<i class="fas fa-star"></i>';
     
-    levelPanel.appendChild(level);
+    starsPanel.appendChild(level);
     }
 
     for (i = 0; i < (totalLevels - currentLevel); i++) {
         const level = document.createElement('li');
         level.innerHTML += '<i class="far fa-star"></i>';
     
-    levelPanel.appendChild(level);
+    starsPanel.appendChild(level);
     }   
 }
 
@@ -69,6 +67,8 @@ function generateLevelDisplay() {
 function handleCardClick(event) {
 
     event.preventDefault();
+
+    const activeCards = document.querySelectorAll('.open');
 
     //Check if card has been matched previously
     if (this.classList.contains('.matched')) {
@@ -85,24 +85,24 @@ function handleCardClick(event) {
     }
 
     /* Check if 2 cards are flipped */
-    if (chosen.length === 2) {
-        //Record the move
-        movesCount();
+        if (chosen.length === 2) {
+            //Record the move
+            movesCount();
 
-        if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
-            chosen[0].classList.add('matched');
-            chosen[1].classList.add('matched');
+            if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
+                chosen[0].classList.add('matched');
+                chosen[1].classList.add('matched');
 
-            matched.push(this);
-        } else {
-        // return cards to normal state after a short delay
-        setTimeout(function () {
-            chosen[0].classList.replace('open', 'hidden');
-            chosen[1].classList.replace('open', 'hidden');
-            }, 1000);
+                matched.push(this);
+            } else {
+            // return cards to normal state after a short delay
+            setTimeout(function () {
+                chosen[0].classList.replace('open', 'hidden');
+                chosen[1].classList.replace('open', 'hidden');
+                }, 1000);
 
+            }
         }
-    }
 
     levelCounter();
     generateLevelDisplay();
@@ -117,8 +117,9 @@ function startGame() {
     createDeck();
 
     generateLevelDisplay();
-    console.log(restart);
+
     currentLevel = 3;
+    moves = 0;
 }
 
 function movesCount() {
