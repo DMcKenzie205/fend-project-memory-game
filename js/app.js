@@ -17,11 +17,14 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
                   'angellist', 'angellist', '500px', '500px'];
 
 /* Global Variables */
+const chosen = [];
+console.log(chosen);
 const restart = document.querySelector('.restart');
 const progress = document.getElementsByClassName('stars');
 const matched = [];
 
 const deck = document.querySelector('.deck');
+const modal = document.querySelector('.modal');
 
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
@@ -65,48 +68,46 @@ function generateLevelDisplay() {
 
 /* Handle card events for game functions */
 function handleCardClick(event) {
-
+    
     event.preventDefault();
-
-    const activeCards = document.querySelectorAll('.open');
-
+    chosen.push(this);
     //Check if card has been matched previously
     if (this.classList.contains('.matched')) {
         return
     }
 
-
-    //Flip the Card
-    this.classList.replace('hidden', 'open');
     //Collect open card elements
-    const chosen = document.querySelectorAll('.open:not(.matched)');
+    
     if (chosen.length > 2) {
+        chosen.length = 0;
         return;
     }
+    //Flip the Card
+    this.classList.replace('hidden', 'open');
 
+    console.log(chosen);
     /* Check if 2 cards are flipped */
-        if (chosen.length === 2) {
-            //Record the move
-            movesCount();
+    if (chosen.length === 2) {
+        //Record the move
+        movesCount();
 
-            if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
-                chosen[0].classList.add('matched');
-                chosen[1].classList.add('matched');
+        if (chosen[0].dataset.icon === chosen[1].dataset.icon) {
+            chosen[0].classList.add('matched');
+            chosen[1].classList.add('matched');
 
-                matched.push(this);
-            } else {
-            // return cards to normal state after a short delay
-            setTimeout(function () {
-                chosen[0].classList.replace('open', 'hidden');
-                chosen[1].classList.replace('open', 'hidden');
-                }, 1000);
+            matched.push(this);
+        } else {
+        // return cards to normal state after a short delay
+        setTimeout(function () {
+            chosen[0].classList.replace('open', 'hidden');
+            chosen[1].classList.replace('open', 'hidden');
+            }, 1000);
 
-            }
         }
+    }
 
     levelCounter();
     generateLevelDisplay();
-    
 }
 
 /* Set functions for game start on window.load or start game action */
@@ -125,7 +126,6 @@ function startGame() {
 function movesCount() {
     moves++;
     moveCounter.innerHTML = moves;
-    
 }
 
 function levelCounter() {
@@ -172,19 +172,18 @@ function winGame() {
     if (matched.length === 8) {
         alert("Congratulations!!!");
     }
-
+    toggleModal();
 }
 
 /* Restart Game */
 
 restart.addEventListener('click', startGame);
+
+
+function toggleModal() {
+    modal.classList.toggle('show-modal');
+}
+
 /*
-
-
-
  *  + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
-
-
-
