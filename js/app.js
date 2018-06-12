@@ -110,6 +110,7 @@ function handleCardClick(event) {
     levelCounter();
     // Regenerate the levelDisplay based on No. of moves
     generateLevelDisplay();
+    console.log(chosen);
     }
 }
 
@@ -125,6 +126,7 @@ function startGame() {
     // Set base values for level and No. of moves
     currentLevel = 3;
     moves = 0;
+    moveCounter.innerHTML = moves;
 }
 
 /* Increase the moves counter by one */
@@ -188,10 +190,6 @@ function winGame() {
 
 restart.addEventListener('click', function() {
     startGame();
-
-    /*currentLevel = 3;
-    moves = 0;*/
-
 });
 
 
