@@ -179,8 +179,19 @@ h1 {
     padding: 1rem, 1.5rem;
     width: 24rem;
     border-radius: 0.5rem;
+    list-style: none;
+    font-size: 18px;
+    justify-content: center;
 }
 
+.modal-content h1 {
+    font-size: 22px;
+    padding: 1rem, 1.5rem;
+}
+
+.modal-content .final-rating {
+    display: inline-block;
+}
 .show-modal {
     opacity: 1;
     visibility: visible;

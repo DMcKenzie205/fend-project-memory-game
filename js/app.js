@@ -23,6 +23,7 @@ const matched = [];
 
 const deck = document.querySelector('.deck');
 const modal = document.querySelector('.modal');
+const modalContent = document.querySelector('.modal-content');
 
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
@@ -58,14 +59,14 @@ function generateLevelDisplay() {
     const starsPanel = document.querySelector('.stars');
     starsPanel.innerHTML = "";
     // Add filled stars based on current level (default is 3)
-    for (i = 0; i < currentLevel; i++) {
+    for (let i = 0; i < currentLevel; i++) {
         const level = document.createElement('li');
         level.innerHTML += '<i class="fas fa-star"></i>';
     
     starsPanel.appendChild(level);
     }
     // Add empty stars after above to a max of 3 total stars
-    for (i = 0; i < (totalLevels - currentLevel); i++) {
+    for (let i = 0; i < (totalLevels - currentLevel); i++) {
         const level = document.createElement('li');
         level.innerHTML += '<i class="far fa-star"></i>';
     
@@ -77,13 +78,20 @@ function generateLevelDisplay() {
 function handleCardClick(event) {
     event.preventDefault();
     // Add the clicked card to the chosen array
+    /*if (!chosen.includes(this)) {
     chosen.push(this);
+    }*/
     // Check if card has been matched previously
-    if (this.classList.contains('.matched')) {
-        return
-    }  
+    if (this.classList.contains('.matched') || chosen.length === 2) {
+        return;
+    }
+    // If the card has not already been selected...
+    if (!chosen.includes(this)) {
+    chosen.push(this);
     // Flip the Card
     this.classList.replace('hidden', 'open');
+    }
+    
     // Check if 2 cards are flipped
     if (chosen.length === 2) {
         // Record the move
@@ -110,13 +118,16 @@ function handleCardClick(event) {
     levelCounter();
     // Regenerate the levelDisplay based on No. of moves
     generateLevelDisplay();
-    console.log(chosen);
+    winGame();
     }
 }
 
 /* Set functions for game start on window.load or start game action */
 function startGame() {
     deck.innerHTML = "";
+    currentLevel = 3;
+    moves = 0;
+    moveCounter.innerHTML = moves;
     // Shuffle the card deck
     shuffle(cardDeck);
     // Create randomised deck of cards
@@ -124,9 +135,6 @@ function startGame() {
     // Initialise the levelDisplay
     generateLevelDisplay();
     // Set base values for level and No. of moves
-    currentLevel = 3;
-    moves = 0;
-    moveCounter.innerHTML = moves;
 }
 
 /* Increase the moves counter by one */
@@ -180,10 +188,9 @@ function debounce(fn, delay) {
 
 /* insert this as a callback on HandleCardClick */
 function winGame() {
-    if (matched.length === 8) {
-        alert("Congratulations!!!");
-    }
-    toggleModal();
+    if (matched.length === 8) {      
+        toggleModal();
+    } 
 }
 
 /* Restart Game */
@@ -194,7 +201,15 @@ restart.addEventListener('click', function() {
 
 
 function toggleModal() {
+    const rating = document.querySelector('.stars').innerHTML;
+
     modal.classList.toggle('show-modal');
+    modalContent.innerHTML = `<h1>Congratulations, you beat the game!</h1>
+                              <p>You did this in <strong>${moves}</strong> moves</p>
+                              <div class = "final-rating">${rating}</div>
+
+    `
+
 }
 
 /*
