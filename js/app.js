@@ -24,9 +24,12 @@ const matched = [];
 const deck = document.querySelector('.deck');
 const modal = document.querySelector('.modal');
 const modalContent = document.querySelector('.modal-content');
+const newGameBtn = document.querySelector('#newGame');
 
 let moveCounter = document.querySelector('.moves');
 let moves = 0;
+
+let timer = document.querySelector('.timer');
 
 let chosen = [];
 
@@ -81,6 +84,7 @@ function handleCardClick(event) {
     /*if (!chosen.includes(this)) {
     chosen.push(this);
     }*/
+
     // Check if card has been matched previously
     if (this.classList.contains('.matched') || chosen.length === 2) {
         return;
@@ -135,6 +139,7 @@ function startGame() {
     // Initialise the levelDisplay
     generateLevelDisplay();
     // Set base values for level and No. of moves
+    startTimer();
 }
 
 /* Increase the moves counter by one */
@@ -145,13 +150,13 @@ function movesCount() {
 
 /* Check if the No. of moves will cause the No. of stars to change */
 function levelCounter() {
-    if (moves < 10) {
+    if (moves < 12) {
         currentLevel = 3;
-    } else if (moves > 10 && moves < 18) {
+    } else if (moves > 12 && moves < 18) {
         currentLevel = 2;
-    } else if (moves > 18 && moves < 25) {
+    } else if (moves > 18 && moves < 24) {
         currentLevel = 1;
-    } else if (moves > 25) {
+    } else if (moves > 24) {
         currentLevel = 0;
     }
 }
@@ -190,6 +195,8 @@ function debounce(fn, delay) {
 function winGame() {
     if (matched.length === 8) {      
         toggleModal();
+
+
     } 
 }
 
@@ -197,21 +204,46 @@ function winGame() {
 
 restart.addEventListener('click', function() {
     startGame();
+    timer.innerHTML = '0mins 0secs'
+    startTimer();
 });
 
 
 function toggleModal() {
     const rating = document.querySelector('.stars').innerHTML;
+    let finalTime = timer.innerHTML;
 
     modal.classList.toggle('show-modal');
     modalContent.innerHTML = `<h1>Congratulations, you beat the game!</h1>
-                              <p>You did this in <strong>${moves}</strong> moves</p>
-                              <div class = "final-rating">${rating}</div>
-
+                              <p>You did this in <strong>${moves}</strong> moves and <strong>${finalTime}</strong></p>
+                              <p>Rating: ${rating}</p>
+                              <button id="newGame">New Game?</button>
     `
-
+    timer.innerHTML = '0mins 0secs'
+    
+    newGameBtn.addEventListener('click', newGame());
 }
 
-/*
- *  + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+function newGame() {
+        modal.classList.toggle('show-modal');
+        startGame();
+}
+
+
+/* Timer function from https://sandraisrael.github.io/Memory-Game-fend/ */
+function startTimer() {
+    let second = 0, minute = 0; hour = 0;
+    let interval = setInterval(function(){
+        
+        timer.innerHTML = minute+"mins "+second+"secs";
+        second++;
+        if (second == 60){
+            minute++;
+            second=0;
+        }
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+    },1000);
+}
