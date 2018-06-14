@@ -59,6 +59,7 @@ function createDeck(){
 
         deck.appendChild(card);
     }
+    timer.innerHTML = '0mins 0secs';
 }
 
 /* Create the star based accomplishment meter */
@@ -253,4 +254,5 @@ function updateTimerDisplay() {
 
 function stopTimer() {
     clearInterval(timerInterval);
+    timerInterval = undefined;
 }
