@@ -5,6 +5,7 @@ https://scotch.io/tutorials/how-to-build-a-memory-matching-game-in-javascript
 
 https://davidwalsh.name/function-debounce
 
+https://sabe.io/tutorials/how-to-create-modal-popup-box
 
 /*******************************************************************************
  * Set Global Values
@@ -30,6 +31,9 @@ let moveCounter = document.querySelector('.moves');
 let moves = 0;
 
 let timer = document.querySelector('.timer');
+/*const minutesLabel = document.getElementsByClassName('.minutes');
+const secondsLabel = document.getElementsByClassName('.seconds');*/
+let second = 0;
 
 let chosen = [];
 
@@ -150,9 +154,9 @@ function movesCount() {
 
 /* Check if the No. of moves will cause the No. of stars to change */
 function levelCounter() {
-    if (moves < 12) {
+    if (moves < 13) {
         currentLevel = 3;
-    } else if (moves > 12 && moves < 18) {
+    } else if (moves > 13 && moves < 18) {
         currentLevel = 2;
     } else if (moves > 18 && moves < 24) {
         currentLevel = 1;
@@ -191,12 +195,10 @@ function debounce(fn, delay) {
   };
 }
 
-/* insert this as a callback on HandleCardClick */
+/* What to to when the game is won */
 function winGame() {
     if (matched.length === 8) {      
         toggleModal();
-
-
     } 
 }
 
@@ -220,6 +222,7 @@ function toggleModal() {
                               <button id="newGame">New Game?</button>
     `
     timer.innerHTML = '0mins 0secs'
+    interval = 0;
     
     newGameBtn.addEventListener('click', newGame());
 }
@@ -230,20 +233,20 @@ function newGame() {
 }
 
 
-/* Timer function from https://sandraisrael.github.io/Memory-Game-fend/ */
+
+/* Set interval for timer count */
+setInterval(startTimer, 1000);
+/* Timer function */
 function startTimer() {
-    let second = 0, minute = 0; hour = 0;
-    let interval = setInterval(function(){
-        
-        timer.innerHTML = minute+"mins "+second+"secs";
-        second++;
-        if (second == 60){
-            minute++;
-            second=0;
-        }
-        if(minute == 60){
-            hour++;
-            minute = 0;
-        }
-    },1000);
+    second++;
+    /*updateTimerDisplay();*/
+}
+
+let seconds = second
+let minutes = second / 60;
+
+function updateTimerDisplay() {
+    let timerSeconds = seconds;
+    let timerMinutes = minutes;
+    timer.innerHTML = `${timerMinutes} mins ${timerSeconds} secs`;
 }
