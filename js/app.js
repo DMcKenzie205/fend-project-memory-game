@@ -20,7 +20,7 @@ const cardDeck = ['d-and-d', 'd-and-d', 'drupal', 'drupal',
 /* Global Variables */
 const restart = document.querySelector('.restart');
 const progress = document.getElementsByClassName('stars');
-const matched = [];
+let matched = [];
 
 const deck = document.querySelector('.deck');
 const modal = document.querySelector('.modal');
@@ -31,9 +31,9 @@ let moveCounter = document.querySelector('.moves');
 let moves = 0;
 
 let timer = document.querySelector('.timer');
-/*const minutesLabel = document.getElementsByClassName('.minutes');
-const secondsLabel = document.getElementsByClassName('.seconds');*/
-let second = 0;
+let seconds = 0;
+let timerInterval;
+let startTime;
 
 let chosen = [];
 
@@ -84,10 +84,10 @@ function generateLevelDisplay() {
 /* Handle card events for game functions */
 function handleCardClick(event) {
     event.preventDefault();
-    // Add the clicked card to the chosen array
-    /*if (!chosen.includes(this)) {
-    chosen.push(this);
-    }*/
+
+    if (!timerInterval) {
+        startTimer();
+    }
 
     // Check if card has been matched previously
     if (this.classList.contains('.matched') || chosen.length === 2) {
@@ -142,8 +142,6 @@ function startGame() {
     createDeck();
     // Initialise the levelDisplay
     generateLevelDisplay();
-    // Set base values for level and No. of moves
-    startTimer();
 }
 
 /* Increase the moves counter by one */
@@ -198,6 +196,7 @@ function debounce(fn, delay) {
 /* What to to when the game is won */
 function winGame() {
     if (matched.length === 8) {      
+        stopTimer();
         toggleModal();
     } 
 }
@@ -206,8 +205,7 @@ function winGame() {
 
 restart.addEventListener('click', function() {
     startGame();
-    timer.innerHTML = '0mins 0secs'
-    startTimer();
+    seconds = 0;
 });
 
 
@@ -219,34 +217,40 @@ function toggleModal() {
     modalContent.innerHTML = `<h1>Congratulations, you beat the game!</h1>
                               <p>You did this in <strong>${moves}</strong> moves and <strong>${finalTime}</strong></p>
                               <p>Rating: ${rating}</p>
-                              <button id="newGame">New Game?</button>
+                              <button id="newGameBtn">New Game?</button>
     `
+
     timer.innerHTML = '0mins 0secs'
-    interval = 0;
-    
-    newGameBtn.addEventListener('click', newGame());
+    let button = document.querySelector('#newGameBtn');
+    button.addEventListener('click', newGame);
 }
 
 function newGame() {
         modal.classList.toggle('show-modal');
         startGame();
+        matched = [];
 }
 
-
-
-/* Set interval for timer count */
-setInterval(startTimer, 1000);
 /* Timer function */
 function startTimer() {
-    second++;
-    /*updateTimerDisplay();*/
+    seconds = 0
+    timerInterval = setInterval(function() {
+        seconds++;
+        updateTimerDisplay();
+    }, 1000)
 }
 
-let seconds = second
-let minutes = second / 60;
-
 function updateTimerDisplay() {
-    let timerSeconds = seconds;
-    let timerMinutes = minutes;
-    timer.innerHTML = `${timerMinutes} mins ${timerSeconds} secs`;
+    let mins = 0;
+    let secs = 0;
+
+    if (seconds > 0) {
+        mins = Math.floor(seconds / 60); // 60 seconds
+        secs = seconds - (mins * 60);
+    }
+    timer.innerHTML = `${mins}mins ${secs}secs`;
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
 }
