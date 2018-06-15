@@ -216,8 +216,8 @@ function toggleModal() {
 
     modal.classList.toggle('show-modal');
     modalContent.innerHTML = `<h1>Congratulations, you beat the game!</h1>
-                              <p>You did this in <strong>${moves}</strong> moves and <strong>${finalTime}</strong></p>
-                              <p>Rating: ${rating}</p>
+                              <p class="score-text">You did this in <strong>${moves}</strong> moves and <strong>${finalTime}</strong></p>
+                              <p>Rating:</p> <ul>${rating}</ul>
                               <button id="newGameBtn">New Game?</button>
     `
 
