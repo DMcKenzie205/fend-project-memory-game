@@ -6,6 +6,7 @@ https://davidwalsh.name/css-flip
 
 https://sabe.io/tutorials/how-to-create-modal-popup-box
 
+
 /******************************************************************************
  *  Core style settings for index.html
  */
@@ -61,6 +62,7 @@ h1 {
     font-size: 3em;
     margin: 20px 10px;
 }
+
 
 /******************************************************************************
  * Styles for the deck of cards
@@ -122,6 +124,7 @@ h1 {
     pointer-events: none;
 }
 
+
 /******************************************************************************
  * Styles for the Score Panel
  */
@@ -156,96 +159,83 @@ h1 {
     display: inline-block;
 }
 
+
 /******************************************************************************
  * Modal Window
  */
 
-.modal{
+.modal {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
     transform: scale(1.1);
 }
 
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    transform: scale(1.0);
+}
+
 .modal-content {
-    position: absolute;
+    background-color: white;
+    border-radius: 0.5rem;
+    font-size: 18px;
     top: 50%;
     left: 50%;
-    width: 45%;
-    height: 20%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 1rem, 1.5rem;
-    width: 24rem;
-    border-radius: 0.5rem;
     list-style: none;
-    font-size: 18px;
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+    padding: 1rem 1.5rem;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    width: 24rem;
 }
 
 .modal-content h1 {
     font-size: 22px;
-    padding: 1rem, 1.5rem;
-    text-align: center;
-    max-width: 100%;
-    margin: 10px 0 0 0;
-    line-height: 1.2;
+    font-variant: small-caps;
+    line-height: 1.4;
 }
 
 .modal-content li {
     display: inline-block;
-    padding: 5px;
-    text-align: center;
-    margin: auto;
+    padding: 0 .25rem;
 }
 
 .modal-content p {
-    max-width: 25%;
-    display: inline-block;
-    text-align: center;
-    line-height: 1.2;
+    line-height: 1.6;
+    margin: 1em 0;
 }
 
 .modal-content ul {
-    display: inline-block;
-    max-width: 30%;
-    margin: 0 auto;
-    float: right;
+    font-size: 2rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
 }
 
-.modal-content .score-text {
-   text-align: center;
-   max-width: 100%;
-   margin: 10px 0;
+.modal-content button {
+    background-color: #222;
+    border: 1px solid #222;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.4rem;
+    font-variant: small-caps;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
 }
 
-.show-modal {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1.0);
-    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+.modal-content button:hover {
+    background-color: #fff;
+    color: #222;
 }
 
-.modal-content #newGameBtn {
-    justify-content: center;
-    max-width: 30%;
-    margin: 10px 0;
-    border-radius: 5px;
-}
-
-.modal-content .label {
-    margin: 0 auto;
-    max-width: 100%;
-    float: left;
-}
 
 /******************************************************************************
  * Animations

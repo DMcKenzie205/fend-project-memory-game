@@ -7,6 +7,7 @@ https://davidwalsh.name/function-debounce
 
 https://sabe.io/tutorials/how-to-create-modal-popup-box
 
+
 /*******************************************************************************
  * Set Global Values
  */
@@ -40,9 +41,27 @@ let chosen = [];
 const totalLevels = 3;
 let currentLevel = 3;
 
+
 /*******************************************************************************
  * Core functions for creating the game
  */
+
+/* Set functions for game start on window.load or start game action */
+function startGame() {
+    deck.innerHTML = "";
+    currentLevel = 3;
+    moves = 0;
+    moveCounter.innerHTML = moves;
+    // Shuffle the card deck
+    shuffle(cardDeck);
+    // Create randomised deck of cards
+    createDeck();
+    // Initialise the levelDisplay
+    generateLevelDisplay();
+}
+
+/* Initialise the game */
+window.onload = startGame();
 
 /* Create cards within .deck HTML element */
 function createDeck(){
@@ -96,9 +115,9 @@ function handleCardClick(event) {
     }
     // If the card has not already been selected...
     if (!chosen.includes(this)) {
-    chosen.push(this);
-    // Flip the Card
-    this.classList.replace('hidden', 'open');
+        chosen.push(this);
+        // Flip the Card
+        this.classList.replace('hidden', 'open');
     }
     
     // Check if 2 cards are flipped
@@ -131,20 +150,6 @@ function handleCardClick(event) {
     }
 }
 
-/* Set functions for game start on window.load or start game action */
-function startGame() {
-    deck.innerHTML = "";
-    currentLevel = 3;
-    moves = 0;
-    moveCounter.innerHTML = moves;
-    // Shuffle the card deck
-    shuffle(cardDeck);
-    // Create randomised deck of cards
-    createDeck();
-    // Initialise the levelDisplay
-    generateLevelDisplay();
-}
-
 /* Increase the moves counter by one */
 function movesCount() {
     moves++;
@@ -164,8 +169,14 @@ function levelCounter() {
     }
 }
 
-/* Initialise the game */
-window.onload = startGame();
+/* Timer function */
+function startTimer() {
+    seconds = 0
+    timerInterval = setInterval(function() {
+        seconds++;
+        updateTimerDisplay();
+    }, 1000)
+}
 
 /* Shuffle function from http://stackoverflow.com/a/2450976 */
 function shuffle(array) {
@@ -184,14 +195,14 @@ function shuffle(array) {
 
 /* Debounce function to delay clickability and prevent multi-clicks */
 function debounce(fn, delay) {
-  var timer = null;
-  return function () {
-    var context = this, args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      fn.apply(context, args);
-    }, delay);
-  };
+    var timer = null;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(context, args);
+      }, delay);
+    };
 }
 
 /* What to to when the game is won */
@@ -203,11 +214,14 @@ function winGame() {
 }
 
 /* Restart Game */
-
 restart.addEventListener('click', function() {
     startGame();
     seconds = 0;
 });
+
+/*******************************************************************************
+ * Modal window functions
+ */
 
 
 function toggleModal() {
@@ -219,7 +233,7 @@ function toggleModal() {
                               <p class="score-text">You did this in <strong>${moves}</strong> moves and <strong>${finalTime}</strong></p>
                               <p class="label">Rating:</p> <ul>${rating}</ul>
                               <button id="newGameBtn">New Game?</button>
-    `
+                              `
 
     timer.innerHTML = '0mins 0secs'
     let button = document.querySelector('#newGameBtn');
@@ -227,18 +241,9 @@ function toggleModal() {
 }
 
 function newGame() {
-        modal.classList.toggle('show-modal');
-        startGame();
-        matched = [];
-}
-
-/* Timer function */
-function startTimer() {
-    seconds = 0
-    timerInterval = setInterval(function() {
-        seconds++;
-        updateTimerDisplay();
-    }, 1000)
+    modal.classList.toggle('show-modal');
+    startGame();
+    matched = [];
 }
 
 function updateTimerDisplay() {
