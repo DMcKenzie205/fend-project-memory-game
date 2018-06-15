@@ -203,8 +203,8 @@ h1 {
 .modal-content li {
     display: inline-block;
     padding: 5px;
-    max-width: 10%;
     text-align: center;
+    margin: auto;
 }
 
 .modal-content p {
@@ -216,6 +216,9 @@ h1 {
 
 .modal-content ul {
     display: inline-block;
+    max-width: 30%;
+    margin: 0 auto;
+    float: right;
 }
 
 .modal-content .score-text {
@@ -236,6 +239,12 @@ h1 {
     max-width: 30%;
     margin: 10px 0;
     border-radius: 5px;
+}
+
+.modal-content .label {
+    margin: 0 auto;
+    max-width: 100%;
+    float: left;
 }
 
 /******************************************************************************
