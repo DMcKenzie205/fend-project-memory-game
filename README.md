@@ -1,20 +1,19 @@
 # Memory Game Project
 
+This is a card matching 'Pairs' game where you click on the cards, try to memorise their lcations and match the symbols.
+
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Installation](#installation)
+* [Source](#Source)
 
-## Instructions
+## Installation
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Clone the GitHub repository.
 
-To get started, open `js/app.js` and start building out the app's functionality
+`$ git clone https://github.com/DMcKenzie205/fend-project-memory-game.git
+$ cd fend-project-memory-game`
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+## Source
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+This project is done as part of the Udacity Front-End NanoDegree (FEND). The code is based on a basic structure provided by Udacity. The original Source files can be found at https://github.com/udacity/fend-project-memory-game
